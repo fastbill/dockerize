@@ -116,6 +116,9 @@ func waitForDependencies() {
 				go func(u url.URL) {
 					client := &http.Client{
 						Timeout: waitTimeoutFlag,
+						CheckRedirect: func(req *http.Request, via []*http.Request) error {
+							return http.ErrUseLastResponse
+						},
 					}
 
 					defer wg.Done()
